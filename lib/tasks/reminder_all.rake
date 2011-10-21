@@ -109,7 +109,7 @@ class Reminder_all < Mailer
       end
     end
     over_due.sort!{|x,y| x[0].mail+x[1] <=> y[0].mail+y[1]}
-    previous_user = over_due[0][0]
+    previous_user = over_due[0][0] unless over_due[0].nil?
     watched_tasks = Array.new
     auth_tasks = Array.new
     assigned_tasks = Array.new
