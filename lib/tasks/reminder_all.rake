@@ -81,18 +81,18 @@ class Reminder_all < Mailer
     issues_by = Issue.find(:all, :include => [:status, :author, :project, :watchers , :tracker],
                                           :conditions => s.conditions
                                     )
-    issues_by.group_by(&:author).each do |author, issues|
-      found=0
-      over_due.each do |person|
-	if person[0].mail == author.mail && person[1]=="author" then
-	  person << issues
-	  found=1
-	end
-      end
-      if found==0 then
-	over_due<<[author, "author", issues]
-      end
-    end
+#	issues_by.group_by(&:author).each do |author, issues|
+#	  found=0
+#	  over_due.each do |person|
+#	if person[0].mail == author.mail && person[1]=="author" then
+#	  person << issues
+#	  found=1
+#	end
+#	  end
+#	  if found==0 then
+#	over_due<<[author, "author", issues]
+#	  end
+#	end
     issues_by.group_by(&:watchers).each do |watchers, issues|
       found_watchers = Array.new
       over_due.each do |person|
@@ -122,9 +122,9 @@ class Reminder_all < Mailer
 	if type == "assignee" then
 	  assigned_tasks += issues
 	  sent_issues += issues
-	elsif type == "author" then
-	  auth_tasks += issues
-	  sent_issues += issues
+	#elsif type == "author" then
+	#  auth_tasks += issues
+	#  sent_issues += issues
 	elsif type == "watcher" then
 	  watched_tasks += issues
 	  sent_issues += issues
@@ -148,9 +148,9 @@ class Reminder_all < Mailer
 	if type == "assignee" then
 	  assigned_tasks += issues
 	  sent_issues += issues
-	elsif type == "author" then
-	  auth_tasks += issues
-	  sent_issues += issues
+	#elsif type == "author" then
+	#  auth_tasks += issues
+	#  sent_issues += issues
 	elsif type == "watcher" then
 	  watched_tasks += issues
 	  sent_issues += issues
@@ -167,6 +167,7 @@ namespace :redmine do
     options[:days] = ENV['days'].to_i if ENV['days']
     options[:project] = ENV['project'] if ENV['project']
     options[:tracker] = ENV['tracker'].to_i if ENV['tracker']
+	
 
     Reminder_all.reminders_all(options)
   end
